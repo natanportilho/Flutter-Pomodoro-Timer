@@ -32,7 +32,15 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   void _onPressed() {
+    if (_isPlaying()) {
+      watch.stop();
+    }
+
     _startStopwatch();
+  }
+
+  bool _isPlaying() {
+    return watch.isRunning;
   }
 
   Widget _buildPomodoroTimer() {
@@ -44,7 +52,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
           child: stopwatch(),
         ),
         Placeholder(),
-        IconButton(icon: Icon(Icons.play_arrow), onPressed: _onPressed),
+        IconButton(
+            icon: _isPlaying() ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+            onPressed: _onPressed),
       ],
     ));
   }
