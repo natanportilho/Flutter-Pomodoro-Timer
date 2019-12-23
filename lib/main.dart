@@ -31,12 +31,21 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     );
   }
 
-  void _onPressed() {
+  void _startStopwatch() {
     if (_isPlaying()) {
       watch.stop();
+    } else {
+      watch.start();
+      _startTimer();
     }
+  }
 
-    _startStopwatch();
+  void _restart() {
+    watch.stop();
+    watch.reset();
+    setState(() {
+      time = '25:00';
+    });
   }
 
   bool _isPlaying() {
@@ -52,16 +61,17 @@ class PomodoroTimerState extends State<PomodoroTimer> {
           child: stopwatch(),
         ),
         Placeholder(),
-        IconButton(
-            icon: _isPlaying() ? Icon(Icons.stop) : Icon(Icons.play_arrow),
-            onPressed: _onPressed),
+        Row(children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: _restart,
+          ),
+          IconButton(
+              icon: _isPlaying() ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+              onPressed: _startStopwatch)
+        ], mainAxisAlignment: MainAxisAlignment.center),
       ],
     ));
-  }
-
-  void _startStopwatch() {
-    watch.start();
-    _startTimer();
   }
 
   void _startTimer() {
@@ -79,9 +89,11 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       int currentSeconds =
           int.parse((watch.elapsed.inSeconds % 60).toString().padLeft(2, '0'));
 
-      time = (initialMinutes - currentMinute).toString() +
-          ":" +
-          (initialSeconds - currentSeconds).toString();
+      int timerMinutes = initialMinutes - currentMinute;
+      int timerSeconds = initialSeconds - currentSeconds;
+
+      if (timerSeconds < 60)
+        time = timerMinutes.toString() + ":" + timerSeconds.toString();
     });
   }
 }
