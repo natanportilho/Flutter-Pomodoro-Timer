@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:icofont_flutter/icofont_flutter.dart';
 
 void main() => runApp(MyApp());
 int initialMinutes = 24;
@@ -56,19 +57,25 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     return Center(
         child: Column(
       children: <Widget>[
+        stopwatch(),
         Expanded(
           flex: 1,
-          child: stopwatch(),
+          child: Icon(
+            IcoFontIcons.tomato,
+            size: 200.00,
+          ),
         ),
-        Placeholder(),
         Row(children: <Widget>[
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: _restart,
+            iconSize: 60,
           ),
           IconButton(
-              icon: _isPlaying() ? Icon(Icons.stop) : Icon(Icons.play_arrow),
-              onPressed: _startStopwatch)
+            icon: _isPlaying() ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+            onPressed: _startStopwatch,
+            iconSize: 60,
+          )
         ], mainAxisAlignment: MainAxisAlignment.center),
       ],
     ));
@@ -105,6 +112,7 @@ class PomodoroTimer extends StatefulWidget {
 
 Widget stopwatch() {
   return Container(
+    margin: EdgeInsets.only(top: 50.0),
     child: Text(
       time,
       style: TextStyle(fontSize: 50),

@@ -81,6 +81,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  icofont_flutter:
+    dependency: "direct main"
+    description:
+      name: icofont_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.0"
   image:
     dependency: transitive
     description:
