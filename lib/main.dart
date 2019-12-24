@@ -91,16 +91,20 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     }
 
     setState(() {
-      int currentMinute =
-          int.parse(watch.elapsed.inMinutes.toString().padLeft(2, '0'));
-      int currentSeconds =
-          int.parse((watch.elapsed.inSeconds % 60).toString().padLeft(2, '0'));
-
+      int currentMinute = int.parse(watch.elapsed.inMinutes.toString());
+      int currentSeconds = int.parse((watch.elapsed.inSeconds % 60).toString());
       int timerMinutes = initialMinutes - currentMinute;
       int timerSeconds = initialSeconds - currentSeconds;
 
-      if (timerSeconds < 60)
-        time = timerMinutes.toString() + ":" + timerSeconds.toString();
+      if (timerSeconds < 60 && timerSeconds >= 0) {
+        time = timerMinutes.toString().padLeft(2, '0') +
+            ":" +
+            timerSeconds.toString().padLeft(2, '0');
+      }
+      if (timerMinutes < 0) {
+        time = "00:00";
+        watch.stop();
+      }
     });
   }
 }
