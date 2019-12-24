@@ -72,7 +72,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
             iconSize: 60,
           ),
           IconButton(
-            icon: _isPlaying() ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+            icon: _isPlaying() ? Icon(Icons.pause) : Icon(Icons.play_arrow),
             onPressed: _startStopwatch,
             iconSize: 60,
           )
