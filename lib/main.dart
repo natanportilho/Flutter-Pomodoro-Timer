@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:icofont_flutter/icofont_flutter.dart';
 
 void main() => runApp(MyApp());
@@ -10,6 +11,7 @@ int initialSeconds = 60;
 String time = '25:00';
 var duration = const Duration(seconds: 1);
 var watch = Stopwatch();
+FlutterSound flutterSound = new FlutterSound();
 
 class MyApp extends StatelessWidget {
   @override
@@ -98,14 +100,35 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
       if (timerSeconds < 60 && timerSeconds >= 0) {
         time = timerMinutes.toString().padLeft(2, '0') +
-            ":" +
+            ':' +
             timerSeconds.toString().padLeft(2, '0');
+
+        if (time == '00:00') {
+          _playSong();
+        }
       }
       if (timerMinutes < 0) {
-        time = "00:00";
+        time = '00:00';
         watch.stop();
       }
     });
+  }
+
+  void _playSong() async {
+    await flutterSound.startPlayer(
+        'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Surf%20Shimmy.mp3');
+    _setTimeoutForSong(10000);
+  }
+
+  void _setTimeoutForSong([int milliseconds]) {
+    const timeout = const Duration(seconds: 10);
+    const ms = const Duration(milliseconds: 1);
+    var duration = milliseconds == null ? timeout : ms * milliseconds;
+    Timer(duration, _stopSong);
+  }
+
+  void _stopSong() {
+    flutterSound.stopPlayer();
   }
 }
 
