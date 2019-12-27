@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/pomodoro/PomodoroTimerPage.dart';
+import 'package:pomodoro_timer/pomodoro.dart';
 
 void main() => runApp(MyApp());
 

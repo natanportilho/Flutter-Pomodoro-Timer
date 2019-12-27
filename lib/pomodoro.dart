@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:icofont_flutter/icofont_flutter.dart';
+import 'package:pomodoro_timer/pomodoro_timer.dart';
+import 'package:provider/provider.dart';
 
 int initialMinutes = 24;
 int initialSeconds = 60;
@@ -49,31 +51,38 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   Widget _buildPomodoroTimer() {
-    return Center(
-        child: Column(
-      children: <Widget>[
-        stopwatch(),
-        Expanded(
-          flex: 1,
-          child: Icon(
-            IcoFontIcons.tomato,
-            size: 200.00,
-          ),
+    return ChangeNotifierProvider<MyPomodoroTimer>(
+      create: (context) => MyPomodoroTimer(),
+      child: Center(
+          child: Consumer<MyPomodoroTimer>(
+        builder: (context, myPomodoroTimer, child) => Column(
+          children: <Widget>[
+            //       Consumer<MyPomodoroTimer>(
+            // builder: (context, time, child) => Text('${time.time}')),
+            stopwatch(),
+            Expanded(
+              flex: 1,
+              child: Icon(
+                IcoFontIcons.tomato,
+                size: 200.00,
+              ),
+            ),
+            Row(children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: _restart,
+                iconSize: 60,
+              ),
+              IconButton(
+                icon: _isPlaying() ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                onPressed: myPomodoroTimer.start,
+                iconSize: 60,
+              )
+            ], mainAxisAlignment: MainAxisAlignment.center),
+          ],
         ),
-        Row(children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: _restart,
-            iconSize: 60,
-          ),
-          IconButton(
-            icon: _isPlaying() ? Icon(Icons.pause) : Icon(Icons.play_arrow),
-            onPressed: _startStopwatch,
-            iconSize: 60,
-          )
-        ], mainAxisAlignment: MainAxisAlignment.center),
-      ],
-    ));
+      )),
+    );
   }
 
   void _startTimer() {
@@ -126,11 +135,14 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 }
 
 Widget stopwatch() {
-  return Container(
-    margin: EdgeInsets.only(top: 50.0),
-    child: Text(
-      time,
-      style: TextStyle(fontSize: 50),
+  return ChangeNotifierProvider<MyPomodoroTimer>(
+    create: (context) => MyPomodoroTimer(),
+    child: Container(
+      margin: EdgeInsets.only(top: 50.0),
+      child:
+          // Text(time),
+          Consumer<MyPomodoroTimer>(
+              builder: (context, time, child) => Text('${time.time}')),
     ),
   );
 }
