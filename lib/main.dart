@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/pomodoro/PomodoroTimerPage.dart';
-
+import 'pomodoro/pomodoro_timer_page.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
